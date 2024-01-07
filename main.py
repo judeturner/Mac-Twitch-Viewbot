@@ -1,0 +1,226 @@
+import requests
+import warnings
+import random
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from colorama import Fore
+from pystyle import Center, Colors, Colorate
+import os
+import time
+
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
+def check_for_updates():
+    try:
+        r = requests.get("https://raw.githubusercontent.com/judeturner/Twitch-Viewbot/main/version.txt")
+        remote_version = r.content.decode('utf-8').strip()
+        local_version = open('version.txt', 'r').read().strip()
+        if remote_version != local_version:
+            print("A new version is available. Please download the latest version from GitHub.")
+            time.sleep(3)
+            return False
+        return True
+    except:
+        return True
+
+def save_settings(twitch_username, set_160p):
+    with open('settings.txt', 'w') as file:
+        file.write(f"Twitch Username: {twitch_username}\n")
+        file.write(f"Set 160p: {set_160p}\n")
+
+def load_settings():
+    try:
+        with open('settings.txt', 'r') as file:
+            lines = file.readlines()
+            if len(lines) >= 2:
+                twitch_username = lines[0].split(': ')[1].strip()
+                set_160p = lines[1].split(': ')[1].strip()
+                return twitch_username, set_160p
+    except:
+        pass
+    return None, None
+
+
+
+
+def set_stream_quality(driver, quality):
+    if quality == "yes":
+        element_xpath = "//div[@data-a-target='player-overlay-click-handler']"
+
+        element = driver.find_element(By.XPATH, element_xpath)
+
+        actions = ActionChains(driver)
+
+        actions.move_to_element(element).perform()
+
+        settings_button = driver.find_element(By.XPATH, "//button[@aria-label='Settings']")
+        settings_button.click()
+
+        wait = WebDriverWait(driver, 10)
+        quality_option = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[text()='Quality']")))
+        quality_option.click()
+
+        time.sleep(15)
+
+        quality_levels = wait.until(EC.presence_of_all_elements_located((By.XPATH, "//div[contains(@class, 'video-quality-option')]")))
+        
+        target_quality = "160p"
+        for level in quality_levels:
+            if target_quality in level.text:
+                level.click()
+                break
+
+
+def main():
+    if not check_for_updates():
+        return
+
+    twitch_username, set_160p = load_settings()
+
+def print_announcement():
+    try:
+        # Announcement
+        announcement = "No new announcements"
+        return announcement
+    except:
+        print("Could not retrieve announcement from GitHub.\n")
+
+
+
+
+def main():
+    if not check_for_updates():
+        return
+    print_announcement()
+    
+    twitch_username, set_160p = load_settings()
+
+    os.system("clear")
+
+    print(Colorate.Vertical(Colors.green_to_cyan, Center.XCenter("""
+           
+            Made by    ▄████████ ▄███████    █▄       ▄   ▄██▀▀▀▀   █     █▄
+                       ███    █▀ ███   ██▄    ██      ██   ██      ██     ██
+                       ███    █  ███▌  ███    █▀      █▄   ██       █     █
+                       █████▀▀▀  ███▌  ▄██    ██   ▄  █    ██ ▄▄     █   █
+                       ▄██       ▄██▌  ██▄    █   █▀  █    ███▀       █ ██
+                       ███       ███   ███    █▄ █ ██ █    ██         ██ 
+                       ▄██       ███   ▄██    ███   ███▄   ██         ▄█ 
+                       ███       ▄████████    █▀    ███    █▀         ██▄
+                       ▀                                              █▀
+                       """)))
+    announcement = print_announcement()
+    print("")
+    print(Colors.red, Center.XCenter("ANNOUNCEMENT"))
+    print(Colors.yellow, Center.XCenter(f"{announcement}"))
+    print("")
+    print("")
+    
+
+    proxy_servers = ['https://www.blockaway.net', 'https://www.croxyproxy.com', 'https://www.croxyproxy.rocks', 'https://www.croxy.network', 'https://www.croxy.org', 'https://www.youtubeunblocked.live', 'https://www.croxyproxy.net']
+    def selectRandom(proxy_servers):
+        return random.choice(proxy_servers)
+
+    proxy_url = selectRandom(proxy_servers)
+
+    print(Colors.red, " ")
+    if twitch_username is None or set_160p is None:
+        
+        twitch_username = input(Colorate.Vertical(Colors.green_to_blue, "Enter your channel name (e.g qtpowfy): "))
+        set_160p = input(Colorate.Vertical(Colors.purple_to_red,"Do you want to set the stream to low quality? (yes/no): "))
+
+        save_settings(twitch_username, set_160p)
+
+    else:
+        use_settings = input(Colorate.Vertical(Colors.green_to_blue, " Do you want to use your saved settings? (yes/no): "))
+        if use_settings.lower() == "no":
+            
+            twitch_username = input(Colorate.Vertical(Colors.green_to_blue, "Enter your channel name (e.g qtpowfy): "))
+            set_160p = input(Colorate.Vertical(Colors.purple_to_red,"Do you want to set the stream to low quality? (yes/no): "))
+
+            save_settings(twitch_username, set_160p)
+        
+    proxy_count = int(input(Colorate.Vertical(Colors.cyan_to_blue, "How many viewers would you like?: ")))
+
+
+    os.system("clear")
+    print(Colorate.Vertical(Colors.green_to_cyan, Center.XCenter("""
+           
+            Made by    ▄████████ ▄███████    █▄       ▄   ▄██▀▀▀▀   █     █▄
+                       ███    █▀ ███   ██▄    ██      ██   ██      ██     ██
+                       ███    █  ███▌  ███    █▀      █▄   ██       █     █
+                       █████▀▀▀  ███▌  ▄██    ██   ▄  █    ██ ▄▄     █   █
+                       ▄██       ▄██▌  ██▄    █   █▀  █    ███▀       █ ██
+                       ███       ███   ███    █▄ █ ██ █    ██         ██ 
+                       ▄██       ███   ▄██    ███   ███▄   ██         ▄█ 
+                       ███       ▄████████    █▀    ███    █▀         ██▄
+                       ▀                                              █▀   
+                                                                    """)))
+    print('')
+    print('')
+    print(Colors.red, Center.XCenter("Viewers queued. If the viewers do not arrive within 10 mins close the app and try again"))
+
+
+    chrome_path = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+    driver_path = 'chromedriver.exe'
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    chrome_options.add_argument('--disable-logging')
+    chrome_options.add_argument("--lang=en")
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--log-level=3')
+    chrome_options.add_argument('--disable-extensions')
+    chrome_options.add_argument("--mute-audio")
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    driver = webdriver.Chrome(options=chrome_options)
+
+    driver.get(proxy_url)
+
+    for i in range(proxy_count):
+        random_proxy_url = selectRandom(proxy_servers)  # Select a random proxy server for this tab
+        driver.execute_script("window.open('" + random_proxy_url + "')")
+        driver.switch_to.window(driver.window_handles[-1])
+        driver.get(random_proxy_url)
+
+
+        text_box = driver.find_element(By.ID, 'url')
+        text_box.send_keys(f'www.twitch.tv/{twitch_username}')
+        text_box.send_keys(Keys.RETURN)
+        time.sleep(10)
+
+    set_stream_quality(driver, set_160p)
+
+    input(Colorate.Vertical(Colors.red_to_blue, "Viewers have all been sent. Enjoy the sream (:"))
+    driver.quit()
+
+if __name__ == '__main__':
+    main()
+
+# ==========================================
+# Copyright 2023 Powfy
+
+# Permission must be granted through Powfy to use
+# this software and it's associated documentation files.
+
+# Powfy retains the entire rights for this software and at any point is able
+# to revoke access to the software. By purchasing, you are allowed to use
+# the software for its intended purpose but in no circumstances are allowed
+# to copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software.
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+# ==========================================
