@@ -16,7 +16,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 def check_for_updates():
     try:
-        r = requests.get("https://raw.githubusercontent.com/judeturner/Twitch-Viewbot/main/version.txt")
+        r = requests.get("https://raw.githubusercontent.com/judeturner/Mac-Twitch-Viewbot/main/version.txt")
         remote_version = r.content.decode('utf-8').strip()
         local_version = open('version.txt', 'r').read().strip()
         if remote_version != local_version:
