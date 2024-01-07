@@ -1,7 +1,7 @@
 Proxyless Twitch Viewbot
 
 Instructions:
-1) Download Repository and rename main(macos).py > main.py deleting the original main.py
+1) Download Repository
 2) Download latest version of python from https://www.python.org/downloads/
 3) Install PIP Library
 4) Match Chrome ver. with version of chromedriver.exe from https://googlechromelabs.github.io/chrome-for-testing/ (to see your chrome version click 'settings', then 'About Chrome')
