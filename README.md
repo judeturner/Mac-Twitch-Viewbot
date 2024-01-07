@@ -1,2 +1,15 @@
-# Mac-Twitch-Viewbot
-Open-source proxyless twitch viewbot that allows you to boost Twitch channel growth hassle-free. Updates will come soon. How does it work? This software sends viewers to your Twitch live stream through selenium. It is recommended to use this software on a separate PC as it is very CPU and Ram heavy
+Proxyless Twitch Viewbot
+
+Instructions:
+1) Download Repository and rename main(macos).py > main.py deleting the original main.py
+2) Download latest version of python from https://www.python.org/downloads/
+3) Install PIP Library
+4) Match Chrome ver. with version of chromedriver.exe from https://googlechromelabs.github.io/chrome-for-testing/ (to see your chrome version click 'settings', then 'About Chrome')
+5) Open requirements.txt file and make note of the libraries required
+6) PIP install each library
+7) Open terminal and type cd followed by the directory where the viewbot is located (eg. cd /Users/judeturner/Desktop/TwitchViewbot/)
+8) Type python3 main.py
+9) Follow on screen steps
+
+Legal Notice:
+The software designed to perform website security testing. The author is not responsible for any illegal use of these programs. This is 100% educational, please do not misuse this tool.
