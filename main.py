@@ -11,21 +11,10 @@ from colorama import Fore
 from pystyle import Center, Colors, Colorate
 import os
 import time
+import subprocess
+import platform
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
-
-def check_for_updates():
-    try:
-        r = requests.get("https://raw.githubusercontent.com/judeturner/Mac-Twitch-Viewbot/main/version.txt")
-        remote_version = r.content.decode('utf-8').strip()
-        local_version = open('version.txt', 'r').read().strip()
-        if remote_version != local_version:
-            print("A new version is available. Please download the latest version from GitHub.")
-            time.sleep(3)
-            return False
-        return True
-    except:
-        return True
 
 def save_settings(twitch_username, set_160p):
     with open('settings.txt', 'w') as file:
@@ -76,9 +65,6 @@ def set_stream_quality(driver, quality):
 
 
 def main():
-    if not check_for_updates():
-        return
-
     twitch_username, set_160p = load_settings()
 
 def print_announcement():
@@ -93,25 +79,23 @@ def print_announcement():
 
 
 def main():
-    if not check_for_updates():
-        return
     print_announcement()
     
     twitch_username, set_160p = load_settings()
 
-    os.system("clear")
+    subprocess.run(["printf", "\033]0;%s\007" % "Powfy - Twitch Viewer Bot @powfy"], check=True)
 
     print(Colorate.Vertical(Colors.green_to_cyan, Center.XCenter("""
            
-            Made by    ▄████████ ▄███████    █▄       ▄   ▄██▀▀▀▀   █     █▄
-                       ███    █▀ ███   ██▄    ██      ██   ██      ██     ██
-                       ███    █  ███▌  ███    █▀      █▄   ██       █     █
-                       █████▀▀▀  ███▌  ▄██    ██   ▄  █    ██ ▄▄     █   █
-                       ▄██       ▄██▌  ██▄    █   █▀  █    ███▀       █ ██
-                       ███       ███   ███    █▄ █ ██ █    ██         ██ 
-                       ▄██       ███   ▄██    ███   ███▄   ██         ▄█ 
-                       ███       ▄████████    █▀    ███    █▀         ██▄
-                       ▀                                              █▀
+    ██▄▄██████▄        █▄     █▄████▄██    ████       █   ▄█▄██▀███▄  █▄███████
+        ███      ███    ██▄    ██     █▄   ▄█  ██    ██   █▄           ██     █▄
+        ██▄      ██     ███    █▀     ▄█   ██   █    ██   ▀█           █▀     ▄█
+        ███      ▄██    ██     ██▄█▄██▄    ██   ██   ▀█   ██▄█▀███▄█   ██▄█▄██▄
+        ▄██      ▄██▌   ██▄    █     █     ██    █    █   ▄█       ▀   █     █
+        ███       ███   ███    █▄     █    ██    ██   █▀  ██           █▄     █
+        ▄██       ███   ▄██    ███    ▀█   ▄█     █   █   ██           ███    ▀█
+        ██▄       ▄████████    █▀      █▄  ██     ███▀    ▀████▄██▄█   █▀      █▄
+        ▀                                  ▀
                        """)))
     announcement = print_announcement()
     print("")
@@ -127,11 +111,11 @@ def main():
 
     proxy_url = selectRandom(proxy_servers)
 
-    print(Colors.red, " ")
+    print(Colors.red, "Proxy servers are randomly selected every time")
     if twitch_username is None or set_160p is None:
         
-        twitch_username = input(Colorate.Vertical(Colors.green_to_blue, "Enter your channel name (e.g qtpowfy): "))
-        set_160p = input(Colorate.Vertical(Colors.purple_to_red,"Do you want to set the stream to low quality? (yes/no): "))
+        twitch_username = input(Colorate.Vertical(Colors.green_to_blue, "Enter your channel name: "))
+        set_160p = input(Colorate.Vertical(Colors.purple_to_red,"Do you want to run a low stream quality? (yes/no): "))
 
         save_settings(twitch_username, set_160p)
 
@@ -139,8 +123,8 @@ def main():
         use_settings = input(Colorate.Vertical(Colors.green_to_blue, " Do you want to use your saved settings? (yes/no): "))
         if use_settings.lower() == "no":
             
-            twitch_username = input(Colorate.Vertical(Colors.green_to_blue, "Enter your channel name (e.g qtpowfy): "))
-            set_160p = input(Colorate.Vertical(Colors.purple_to_red,"Do you want to set the stream to low quality? (yes/no): "))
+            twitch_username = input(Colorate.Vertical(Colors.green_to_blue, "Enter your channel name: "))
+            set_160p = input(Colorate.Vertical(Colors.purple_to_red,"Do you want to set the stream quality to 160p? (yes/no): "))
 
             save_settings(twitch_username, set_160p)
         
@@ -150,19 +134,18 @@ def main():
     os.system("clear")
     print(Colorate.Vertical(Colors.green_to_cyan, Center.XCenter("""
            
-            Made by    ▄████████ ▄███████    █▄       ▄   ▄██▀▀▀▀   █     █▄
-                       ███    █▀ ███   ██▄    ██      ██   ██      ██     ██
-                       ███    █  ███▌  ███    █▀      █▄   ██       █     █
-                       █████▀▀▀  ███▌  ▄██    ██   ▄  █    ██ ▄▄     █   █
-                       ▄██       ▄██▌  ██▄    █   █▀  █    ███▀       █ ██
-                       ███       ███   ███    █▄ █ ██ █    ██         ██ 
-                       ▄██       ███   ▄██    ███   ███▄   ██         ▄█ 
-                       ███       ▄████████    █▀    ███    █▀         ██▄
-                       ▀                                              █▀   
-                                                                    """)))
+    ██▄▄██████▄        █▄     █▄████▄██    ████       █   ▄█▄██▀███▄  █▄███████
+        ███      ███    ██▄    ██     █▄   ▄█  ██    ██   █▄           ██     █▄
+        ██▄      ██     ███    █▀     ▄█   ██   █    ██   ▀█           █▀     ▄█
+        ███      ▄██    ██     ██▄█▄██▄    ██   ██   ▀█   ██▄█▀███▄█   ██▄█▄██▄
+        ▄██      ▄██▌   ██▄    █     █     ██    █    █   ▄█       ▀   █     █
+        ███       ███   ███    █▄     █    ██    ██   █▀  ██           █▄     █
+        ▄██       ███   ▄██    ███    ▀█   ▄█     █   █   ██           ███    ▀█
+        ██▄       ▄████████    █▀      █▄  ██     ███▀    ▀████▄██▄█   █▀      █▄
+        ▀                                  ▀""")))
     print('')
     print('')
-    print(Colors.red, Center.XCenter("Viewers queued. If the viewers do not arrive within 10 mins close the app and try again"))
+    print(Colors.red, Center.XCenter("Viewers queued. If the viewers does not arrive within 10 mins, close app and try again"))
 
 
     chrome_path = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
@@ -202,22 +185,20 @@ if __name__ == '__main__':
     main()
 
 # ==========================================
-# Copyright 2023 Powfy
+# Copyright 2023 Jude Turner
 
-# Permission must be granted through Powfy to use
-# this software and it's associated documentation files.
-
-# Powfy retains the entire rights for this software and at any point is able
-# to revoke access to the software. By purchasing, you are allowed to use
-# the software for its intended purpose but in no circumstances are allowed
-# to copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software.
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
 
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
