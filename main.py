@@ -70,7 +70,7 @@ def main():
 def print_announcement():
     try:
         # Announcement
-        announcement = "No new announcements"
+        announcement = "Welcome to Twitch Viewbot (MACOS) Created by Jude Turner"
         return announcement
     except:
         print("Could not retrieve announcement from GitHub.\n")
@@ -83,7 +83,7 @@ def main():
     
     twitch_username, set_160p = load_settings()
 
-    subprocess.run(["printf", "\033]0;%s\007" % "Powfy - Twitch Viewer Bot @powfy"], check=True)
+    subprocess.run(["printf", "\033]0;%s\007" % "Turner - Twitch Viewer Bot @Turner"], check=True)
 
     print(Colorate.Vertical(Colors.green_to_cyan, Center.XCenter("""
            
@@ -185,7 +185,7 @@ if __name__ == '__main__':
     main()
 
 # ==========================================
-# Copyright 2023 Jude Turner
+# Copyright 2024 Jude Turner
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
